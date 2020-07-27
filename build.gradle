@@ -1,0 +1,60 @@
+plugins {
+    id 'java'
+    id "io.qameta.allure" version "2.8.1"
+    id 'idea'
+    id 'groovy'
+}
+group 'org.example'
+version '1.0-SNAPSHOT'
+
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+compileJava.options.encoding = 'UTF-8'
+
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+}
+
+configurations {
+    agent
+}
+allure {
+    autoconfigure = true
+    aspectjweaver = true
+    aspectjVersion = '1.9.4'
+    version = '2.10.0'
+}
+
+dependencies {
+    agent 'org.aspectj:aspectjweaver:1.9.4'
+    implementation('com.codeborne:selenide:5.11.1')
+    testImplementation("io.qameta.allure:allure-selenide:2.13.5")
+    implementation('com.github.automatedowl:allure-environment-writer:1.0.0')
+    implementation('io.qameta.allure:allure-java-commons:2.13.5')
+    implementation('io.rest-assured:rest-assured:4.3.0')
+    implementation('org.junit.jupiter:junit-jupiter:5.5.2')
+    compile 'org.aspectj:aspectjtools:1.9.4'
+    compile 'org.slf4j:slf4j-nop:1.7.25'
+    testCompile 'io.qameta.allure:allure-junit5:2.13.5'
+}
+
+apply plugin: "io.qameta.allure"
+
+
+
+test.doFirst {
+    jvmArgs "-javaagent:${configurations.agent.singleFile}"
+}
+
+
+test {
+    useJUnitPlatform()
+    systemProperty 'allure.results.directory', 'build/allure-results'
+}
+
+
