@@ -3,6 +3,7 @@ package ru.honorzor.tests;
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.Selenide;
 import io.qameta.allure.Description;
+import io.qameta.allure.Epic;
 import org.junit.jupiter.api.Test;
 import ru.honorzor.driver.SettingsDriver;
 
@@ -16,6 +17,7 @@ public class InsiteTest extends SettingsDriver {
 
 
     @Test
+    @Epic("c87")
     @Description(value = "1.11.1 Создание инсайта")
     public void createInsite() {
         step("Step 1. Перейти на сайт https://preprod.uxcrowd.ru ",
@@ -133,16 +135,18 @@ public class InsiteTest extends SettingsDriver {
         step("Step 10 Нажать ссылку \"Перейти к оригиналу видео\"",
                 () -> $$x("//p[contains(@class,'MuiTypography-root MuiTypography-body1')]").get(1).click());
 
-        step("Step 8 Logout",()->$("[ng-tr='PRV.PRV73']").click());
+        step("Step 11 Выйти из профиля", () -> $("[ng-tr='PRV.PRV73']").click());
+        step("Step 12 Ожидания появления главной страницы",() -> $("[ng-tr='NLHOM.NLHOM3']")).shouldBe(visible);
 
     }
 
 
     @Test
+    @Epic("C305")
     @Description(value = "1.11.3 Редактирование инсайта")
-    public void editInsite (){
+    public void editInsite() {
         step("Step 1 Перейти на сайт https://preprod.uxcrowd.ru",
-                ()-> Selenide.open("https://preprod.uxcrowd.ru"));
+                () -> Selenide.open("https://preprod.uxcrowd.ru"));
 
         step("Step 2. Нажать кнопку 'Войти'",
                 () -> $(byTestId("Login menu button")).shouldBe(visible).click());
@@ -231,24 +235,22 @@ public class InsiteTest extends SettingsDriver {
 
 
         step("Step 6. В списке инсайтов в строке с названием \"Инсайт\" нажать кнопку \"Редактировать\"",
-                ()->$$x("//button[contains(@title,'Редактировать')]").first().click());
+                () -> $$x("//button[contains(@title,'Редактировать')]").first().click());
 
 
         step("Step 7 Изменить текст в поле на \"Инсайт для удаления\"\n" +
-                "Нажать кнопку \"Сохранить\"" ,
+                        "Нажать кнопку \"Сохранить\"",
                 () -> {
-            step("Step 7.1 Ввести в поле \"Инсайт для удаления\"",
-                    ()-> $("[class='MuiInputBase-input MuiOutlinedInput-input']").setValue("Insite for delete"));
+                    step("Step 7.1 Ввести в поле \"Инсайт для удаления\"",
+                            () -> $("[class='MuiInputBase-input MuiOutlinedInput-input']").setValue("Insite for delete"));
 
-            step("Step 7.2 Нажать кнопку 'Сохранить'",
-                    ()->$$x("//button[contains(@class,'MuiButtonBase-root MuiButton-root MuiButton-contained sc-fznzqM jMQSSk MuiButton-containedPrimary')]")
-                            .get(1).click());
+                    step("Step 7.2 Нажать кнопку 'Сохранить'",
+                            () -> $$x("//button[contains(@class,'MuiButtonBase-root MuiButton-root MuiButton-contained sc-fznzqM jMQSSk MuiButton-containedPrimary')]")
+                                    .get(1).click());
 
-        });
-        step("Step 8 Logout",()->$("[ng-tr='PRV.PRV73']").click());
-
-
-
+                });
+        step("Step 11 Выйти из профиля", () -> $("[ng-tr='PRV.PRV73']").click());
+        step("Step 12 Ожидания появления главной страницы",() -> $("[ng-tr='NLHOM.NLHOM3']")).shouldBe(visible);
     }
 
 }
